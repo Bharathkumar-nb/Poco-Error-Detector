@@ -1,0 +1,58 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+<div class="container">
+    <form class="row">
+    <div class="col-lg-7 form-group">
+        <label for="sel1">Module:</label>
+        <select class="form-control" id="opt_module" name="opt_module">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+        </select>
+    </div>
+    <br/>
+    <div class="col-lg-7 form-group">
+        <label for="sel2">Challenge:</label>
+        <select class="form-control" id="opt_challenge" name="opt_challenge">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+        </select>
+    </div>
+    <br/>
+    <div class="col-lg-7">
+    <label class="radio-inline">
+        <input type="radio" name="poco_radio">Poco
+    </label>
+    <label class="radio-inline">
+        <input type="radio" name="note_radio">Notebook
+    </label>
+    </div>
+    <br/><br/>
+    <div class="form-group">
+    <div class="col-lg-6">
+      <label for="Code">Code:</label>
+      <textarea class="form-control" rows="10" id="code" name="code"></textarea>
+    </div>
+    <div class="col-lg-6">
+      <label for="Error">Error:</label>
+      <textarea class="form-control" rows="10" id="error" name="error"></textarea>
+    </div>
+    </div>
+    <br/><br/>
+    <div class="col-lg-6 row-lg-offset-2">
+    <button type="button" class="btn btn-default">Submit</button>
+    </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<script src="/static/js/script.js"></script>
+{% endblock %}
