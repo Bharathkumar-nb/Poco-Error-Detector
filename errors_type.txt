@@ -1,0 +1,11 @@
+1. Incorrect filler values.
+2. Incorrect column names in factories.
+3. No return statements.
+4. Incorrect return values.
+5. Incorrect handling of categorical data. Returning strings instead of indices.
+6. Checking wrong indices of categorical data in predictor function.
+7. Incorrect prediction value.
+8. Missing else part.
+9. Misstructured tree
+10. Incorrect starter code (Different URL, copied from different problem)
+11. Assigning the function istead of calling it.

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 import json
+import ast
+import utilities
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -16,8 +18,9 @@ def getAnswers():
     #env_note = request.form['note_radio'];
     #usr_code = request.form['code'];
     #usr_error = request.form['error'];
-    #return json.dumps({'status':'OK','challenge_no':challenge_no,'env':env});
-    return json.dumps(request.form)
+    result = utilities.parseResult(request.form)
+    # return json.dumps(request.form)
+    return result
 
 if __name__ == '__main__':
     app.run(debug=True)
