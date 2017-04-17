@@ -136,14 +136,24 @@ def mod9ch2(code):
     for body in tree.body:
         if isinstance(body, ast.FunctionDef) and body.name == 'predictor':
             hasPredictorFun = True
-
+            fillers = {'Yes':[False, 'Married'], 1:[False,'Credit History']}
+            
             for node in body.body:
                 # Check tree
                 if isinstance(node, ast.If):
-                     result = check_education(node)
-                     print(result)
-                     if result != "Error or No check for education in the tree":
-                         break
+                    result = check_education(node)
+                    print(result)
+                    if result != "Error or No check for education in the tree":
+                        break
+                # Check fillers
+                elif isinstance(node, ast.Assign) and ('mode' in node.targets[0].id or 'filler' in node.targets[0].id):
+                    if isinstance(node.value, ast.Str) and node.value.s in fillers:
+                        fillers[node.value.s][0] = True
+                    elif isinstance(node.value, ast.Num) and node.value.n in fillers:
+                        fillers[node.value.n][0] = True
+            for filler, val in fillers.items():
+                if not val[0]:
+                    result = "Filler "+ str(filler) + ' not used for the column '+ val[1]
             break
             
     if not hasPredictorFun:
