@@ -13,11 +13,6 @@ def welcome():
 
 @app.route('/getAnswers', methods=['POST'])
 def getAnswers():
-    #challenge_no =  request.form['opt_challenge'];
-    #env_poco = request.form['poco_radio'];
-    #env_note = request.form['note_radio'];
-    #usr_code = request.form['code'];
-    #usr_error = request.form['error'];
     result = utilities.parseResult(request.form)
     # return json.dumps(request.form)
     return result

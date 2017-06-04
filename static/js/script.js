@@ -1,10 +1,9 @@
 $(function() {
     $('button').click(function() {
-        var module_no = $('#opt_module').val();
-        var challenge_no = $('#opt_challenge').val();
+        console.log(editor.getValue())
         $.ajax({
             url: '/getAnswers',
-            data: $('form').serialize(),
+            data: 'code='+encodeURIComponent(editor.getValue()),
             type: 'POST',
             success: function(response) {
                 console.log(response);
