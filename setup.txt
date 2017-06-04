@@ -1,0 +1,4 @@
+1. Get git branch from a repo
+	git clone -b <branch> <remote_repo>
+	Example
+	git clone -b my-branch git@github.com:user/myproject.git
