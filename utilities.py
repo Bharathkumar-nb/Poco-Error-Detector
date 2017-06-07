@@ -58,9 +58,13 @@ def check_matching_if_else(tree):
             if return_variable_name == None:
                 result += ['Predictor function has no return statement.']
                 break
+            isIfStatementFound = False
             for func_node in node.body:
                 if isinstance(func_node, ast.If):
+                    isIfStatementFound = True
                     result += check_matching_if_else_util(func_node, return_variable_name)
+            if not isIfStatementFound:
+                result += ["No if statements found in the '{}' function".format(node.name)]
     if not isPredictorFunctionFound:
         result = ['No predictor function found!']
     return result

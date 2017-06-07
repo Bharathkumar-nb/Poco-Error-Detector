@@ -14,8 +14,8 @@
     <br/><br/>
     <div class="form-group">
     <div class="col-lg-10">
-      <label for="Code">Please enter your code:</label>
-      <textarea class="form-control" rows="20" id="code" name="code"></textarea>
+      <label for="code">Please enter your code:</label>
+      <textarea id="code" name="code"></textarea>
     </div>
     </div>
     <div class="col-lg-6 row-lg-offset-2 custom">
@@ -30,18 +30,20 @@
 {% block scripts %}
 {{ super() }}
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
-<script src="/static/js/script.js"></script>
 <script src="/static/js/codemirror.js"></script>
 <script>
   editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     mode:{name: "python",
-          version: 3},
+               version: 3,
+               singleLineStringErrors: false},
     lineNumbers: true,
     indentUnit: 4,
     indentWithTabs:true,
     matchBrackets: true,
     autoRefresh: true,
+    autofocus: true
   });
   console.log(editor)
 </script>
+<script src="/static/js/script.js"></script>
 {% endblock %}
