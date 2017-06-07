@@ -31,6 +31,8 @@
 {{ super() }}
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 <script src="/static/js/codemirror.js"></script>
+<script src="/static/js/mode/python/python.js"></script>
+
 <script>
   editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     mode:{name: "python",

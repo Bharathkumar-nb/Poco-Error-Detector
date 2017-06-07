@@ -69,7 +69,6 @@ def check_matching_if_else(tree):
         result = ['No predictor function found!']
     return result
 
-
 def format_result(result):
     output_error = ''
     for error in result:
@@ -79,7 +78,6 @@ def format_result(result):
     if len(result) == 0:
         output_error += '<div class="well">No Errors</div>'
     return output_error
-
 
 def parseResult(form):
     code = form['code']
