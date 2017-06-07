@@ -22,7 +22,9 @@ def check_matching_if_else_util(node, return_variable_name):
         if isinstance(sub_node, ast.If):
             result += check_matching_if_else_util(sub_node)
         elif not (isinstance(sub_node, ast.Assign) and sub_node.targets[0].id == return_variable_name):
-            result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction".format(sub_node.lineno)]
+            result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction.".format(sub_node.lineno)]
+            if isinstance(sub_node, ast.Assign) and sub_node.targets[0].id != return_variable_name:
+                result[-1] += '<br/>Please make sure that return variable name matches assigned variable name'
             
 
     if len(node.orelse) == 1:
@@ -30,7 +32,9 @@ def check_matching_if_else_util(node, return_variable_name):
         if isinstance(sub_node, ast.If):
             result += check_matching_if_else_util(sub_node)
         elif not (isinstance(sub_node, ast.Assign) and sub_node.targets[0].id == return_variable_name):
-            result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction".format(sub_node.lineno)]
+            result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction.".format(sub_node.lineno)]
+        if isinstance(sub_node, ast.Assign) and sub_node.targets[0].id != return_variable_name:
+                result[-1] += '<br>Please make sure that return variable name matches assigned variable name'
     return result
 
 '''
@@ -69,7 +73,7 @@ def format_result(result):
         output_error += error
         output_error += '</div>'
     if len(result) == 0:
-        output_error += 'No Errors'
+        output_error += '<div class="well">No Errors</div>'
     return output_error
 
 
