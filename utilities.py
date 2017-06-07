@@ -5,16 +5,32 @@ import ast
     Description :   Utility function for check_matching_if_else.
                     Takes 'If' node as parameter and checks if it is properly constructed with matching else.
 '''
-def check_matching_if_else_util(node):
+def check_matching_if_else_util(node, return_variable_name):
     result = []
+
     if len(node.orelse) == 0:
         result += ["No else part found for 'if' statement at Line number {}".format(node.lineno)]
-    for sub_node in node.body:
+    
+    if len(node.body) > 1:
+        result += ["More than one executable statement in the 'if' branch. Please check line numbers {} to {} for errors".format(node.body[0].lineno, node.body[0].lineno+len(node.body)-1)]
+    
+    if len(node.orelse) > 1:
+        result += ["More than one executable statement in the 'else' branch. Please check line numbers {} to {} for errors".format(node.orelse[0].lineno, node.orelse[0].lineno+len(node.orelse)-1)]
+    
+    if len(node.body) == 1:
+        sub_node = node.body[0]
         if isinstance(sub_node, ast.If):
             result += check_matching_if_else_util(sub_node)
-    for sub_node in node.orelse:
+        elif not (isinstance(sub_node, ast.Assign) and sub_node.targets[0].id == return_variable_name):
+            result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction".format(sub_node.lineno)]
+            
+
+    if len(node.orelse) == 1:
+        sub_node = node.orelse[0]
         if isinstance(sub_node, ast.If):
             result += check_matching_if_else_util(sub_node)
+        elif not (isinstance(sub_node, ast.Assign) and sub_node.targets[0].id == return_variable_name):
+            result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction".format(sub_node.lineno)]
     return result
 
 '''
@@ -23,13 +39,26 @@ def check_matching_if_else_util(node):
 '''
 def check_matching_if_else(tree):
     result = []
-    for body in tree.body:
-        if isinstance(body, ast.FunctionDef):
-            for node in body.body:
-                if isinstance(node, ast.If):
-                    result += check_matching_if_else_util(node)
-        if isinstance(body, ast.If):
-            result += check_matching_if_else_util(body)
+    isPredictorFunctionFound = False
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef) and 'predict' in node.name.lower():
+            isPredictorFunctionFound = True
+            last_statement = node.body[-1]
+            return_variable_name = None
+            if isinstance(last_statement, ast.Return):
+                if not isinstance(last_statement.value, ast.Name):
+                    result += ["Return statement expects to return 'prediction' variable"]
+                    break
+                else:
+                    return_variable_name = last_statement.value.id
+            if return_variable_name == None:
+                result += ['Predictor function has no return statement.']
+                break
+            for func_node in node.body:
+                if isinstance(func_node, ast.If):
+                    result += check_matching_if_else_util(func_node, return_variable_name)
+    if not isPredictorFunctionFound:
+        result = ['No predictor function found!']
     return result
 
 

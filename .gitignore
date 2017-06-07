@@ -4,3 +4,4 @@
 *.sql
 *.sqlite
 *.pyc
+__pycache__/

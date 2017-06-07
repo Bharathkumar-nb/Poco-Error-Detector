@@ -2,5 +2,7 @@
 	margin-top: 20px;
 }
 .CodeMirror{
-	border: 3px solid 	#808080;
+	border: 1px solid grey;
+	width:100%;
+	z-index:1;
 }
