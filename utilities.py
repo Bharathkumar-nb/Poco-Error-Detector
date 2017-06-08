@@ -20,7 +20,7 @@ def check_matching_if_else_util(node, return_variable_name):
     if len(node.body) == 1:
         sub_node = node.body[0]
         if isinstance(sub_node, ast.If):
-            result += check_matching_if_else_util(sub_node)
+            result += check_matching_if_else_util(sub_node,return_variable_name)
         elif not (isinstance(sub_node, ast.Assign) and sub_node.targets[0].id == return_variable_name):
             result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction.".format(sub_node.lineno)]
             if isinstance(sub_node, ast.Assign) and sub_node.targets[0].id != return_variable_name:
@@ -30,7 +30,7 @@ def check_matching_if_else_util(node, return_variable_name):
     if len(node.orelse) == 1:
         sub_node = node.orelse[0]
         if isinstance(sub_node, ast.If):
-            result += check_matching_if_else_util(sub_node)
+            result += check_matching_if_else_util(sub_node,return_variable_name)
         elif not (isinstance(sub_node, ast.Assign) and sub_node.targets[0].id == return_variable_name):
             result += ["The statement at Line number {} is neither 'if statement' nor assigning prediction.".format(sub_node.lineno)]
         if isinstance(sub_node, ast.Assign) and sub_node.targets[0].id != return_variable_name:
